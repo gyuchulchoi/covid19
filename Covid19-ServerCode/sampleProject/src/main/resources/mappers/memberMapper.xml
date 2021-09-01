@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+
+
+<mapper namespace="com.example.mapper.memberMapper">
+ 	<resultMap type="map" id="selectWorldCorona">
+ 		<result column="nation_name" property="nation_name"></result>
+ 		<result column="update_time" property="update_time"></result>
+ 		<result column="total_case" property="total_case"></result>
+ 		<result column="new_case" property="new_case"></result>
+ 		<result column="total_death" property="total_death"></result>
+ 		<result column="new_death" property="new_death"></result>
+ 		<result column="total_recovered" property="total_recovered"></result>
+ 	</resultMap>
+ 	<resultMap type="map" id="RegionCorona">
+ 		<result column="country_name" property="country_name"></result>
+ 		<result column="update_time" property="update_time"></result>
+ 		<result column="total_case" property="total_case"></result>
+ 		<result column="new_case" property="new_case"></result>
+ 		<result column="recovered" property="recovered"></result>
+ 		<result column="death" property="death"></result>
+ 		<result column="percentage" property="percentage"></result>
+ 		<result column="new_fcase" property="new_fcase"></result>
+ 		<result column="new_ccase" property="new_ccase"></result>
+ 	</resultMap>
+ 	
+ 	<select id="selectRegionInfor" parameterType="com.example.dto.RegionCorona" resultMap="RegionCorona">
+ 		select update_time, country_name, total_case, new_case, recovered, death, percentage, new_fcase, new_ccase from tr_region where update_time like CONCAT(#{update_time},'%') and country_name = #{country_name}
+    </select>
+    <select id="selectTimeRegionInfor" parameterType="com.example.dto.RegionCorona" resultMap="RegionCorona">
+ 		select update_time, country_name, total_case, new_case, recovered, death, percentage, new_fcase, new_ccase from tr_region where update_time like CONCAT(#{update_time},'%')
+    </select>
+    <select id="selectCountryRegionInfor" parameterType="com.example.dto.RegionCorona" resultMap="RegionCorona">
+ 		select update_time, country_name, total_case, new_case, recovered, death, percentage, new_fcase, new_ccase from tr_region where country_name = #{country_name}
+    </select>
+    
+	<select id="selectWorldInfor"  parameterType="com.example.dto.WorldCorona" resultMap="selectWorldCorona">
+        select update_time, nation_name, total_case, new_case, total_death, new_death, total_recovered from tr_world where update_time like CONCAT(#{update_time},'%') and nation_name = #{nation_name}
+    </select>
+    
+    <select id="selectTimeWorldInfor"  parameterType="com.example.dto.WorldCorona" resultMap="selectWorldCorona">
+        select update_time, nation_name, total_case, new_case, total_death, new_death, total_recovered from tr_world where update_time like CONCAT(#{update_time},'%')
+    </select>
+    <select id="selectNationWorldInfor"  parameterType="com.example.dto.WorldCorona" resultMap="selectWorldCorona">
+        select update_time, nation_name, total_case, new_case, total_death, new_death, total_recovered from tr_world where nation_name = #{nation_name}
+    </select>
+     <insert id = "insertWorld">
+     		insert into tr_world(update_time, nation_name, total_case, new_case, total_death, new_death, total_recovered)
+     			   values (#{update_time}, #{nation_name}, #{total_case}, #{new_case}, #{total_death}, #{new_death}, #{total_recovered} )
+     </insert>
+     
+     <insert id = "insertRegion">
+     		insert into tr_region(update_time, country_name, total_case, new_case, recovered, death, percentage, new_fcase, new_ccase)
+     			   values (#{update_time}, #{country_name}, #{total_case}, #{new_case}, #{recovered}, #{death}, #{percentage}, #{new_fcase}, #{new_ccase} )
+     </insert>
+    
+</mapper>
